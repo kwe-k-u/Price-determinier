@@ -1,23 +1,72 @@
-import xlrd
+import pandas as pd
 #selling -> profit
 
 path = "C:/Safe/Duala/Afro Kiosk/Documents/Afro Kiosk.xlsx"
 
 def openfile(path):
-    book = xlrd.open_workbook(path)
-    sheet = book.sheet_by_name("Product list")
+    file = pd.ExcelFile(path)
+    sheet = file.parse("Product list")
     return sheet
 
 
-def seek(sheet):
-    print(sheet.cell_value(6,8)) #column,row
-    #product name (6,1) cost price (6,5) jumia price (6,8)
+def read(sheet):
+    sheet["F"][6]
+    #product name (B,8) purchase price (F,8) jumia price
 
-def jumiaProfit(commission,device_cost, delivery, contributions):
-    profit = (100 - commission) - device_cost - delivery - contributions
+def write(sheet):
+    sheet.write(0,0, "test")
+
+def jumiaProfit(commission,device_cost, delivery, contributions, selling_price):
+    profit = ((100 - commission)/100 *selling_price) - device_cost - delivery - contributions
     return profit
 
+def regularProfit(selling_price, device_cost, delivery):
+    profit = selling_price -device_cost - delivery
+    return profit
 
+def loopDevices(sheet):
+    column = "B"
+    numRow = 8
+
+    for row in range(numRow,81):
+        print(sheet[column][row])
+
+
+
+def loopPurchasePrice(sheet):
+    column = "F"
+    numRow = 8
+
+    for row in range(numRow,81):
+        print(sheet[column][row])
+
+
+
+def loopSellingPrice(sheet):
+    column = "F"
+    numRow = 8
+
+    for row in range(numRow,81):
+        print(sheet[column][row])
+
+
+
+def loopJumiaPrice(sheet):
+    column = "B"
+    numRow = 8
+
+    for row in range(numRow,81):
+        print(sheet[column][row])
+# =============================================================================
+#                   MAIN
+# =============================================================================
+# if the new price is not more than 1.5 times cost price
+#todo calculate transaction fees
 
 sheet = openfile(path)
-seek(sheet)
+loopDevices(sheet)
+loopJumiaPrice(sheet)
+loopPurchasePrice(sheet)
+loopSellingPrice(sheet)
+#read(sheet)
+#write(sheet)
