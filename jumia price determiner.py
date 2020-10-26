@@ -14,7 +14,17 @@ def read(sheet):
     #product name (B,8) purchase price (F,8) jumia price
 
 def write(sheet):
-    sheet.write(0,0, "test")
+    sheet["B"][1] = 2
+    print(sheet["B"][1])
+    sheet.to_excel(path,
+             index=False,
+             sheet_name="Product list")
+
+# =============================================================================
+#     file = pd.ExcelWriter(path)
+#     file.write_cells(["sd"],"Product list", "B", 2)
+#     file.save()
+# =============================================================================
 
 def jumiaProfit(commission,device_cost, delivery, contributions, selling_price):
     profit = ((100 - commission)/100 *selling_price) - device_cost - delivery - contributions
@@ -64,9 +74,10 @@ def loopJumiaPrice(sheet):
 #todo calculate transaction fees
 
 sheet = openfile(path)
-loopDevices(sheet)
-loopJumiaPrice(sheet)
-loopPurchasePrice(sheet)
-loopSellingPrice(sheet)
-#read(sheet)
-#write(sheet)
+write(sheet)
+# =============================================================================
+# loopDevices(sheet)
+# loopJumiaPrice(sheet)
+# loopPurchasePrice(sheet)
+# loopSellingPrice(sheet)
+# =============================================================================
