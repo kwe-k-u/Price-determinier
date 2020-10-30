@@ -35,40 +35,19 @@ def openfile():
     return sheet
 
 
-def write(column, row, new_value):
-    """
+def writePrices(index, jumia, regular):
+    try:
+        if jumia >0:
+            sheet["I"][index] = jumia
+    except:
+        print("indeex failed to save")
 
+    try:
+        if regular >0:
+            sheet["G"][index] = regular
+    except:
+        print(index, "failed to save")
 
-    Parameters
-    ----------
-    column : TYPE
-        DESCRIPTION.
-    row : TYPE
-        DESCRIPTION.
-    new_value : TYPE
-        DESCRIPTION.
-
-    Returns
-    -------
-    None.
-
-    Write a new value into a cell
-
-    Parameters
-    ----------
-    column : String
-        The column index of the cell to be edited
-    row : Integer
-       The row index of the cell to be edited.
-    new_value : TYPE
-        The value to be inserted in the row.
-
-    Returns
-    -------
-    None.
-
-    """
-    sheet[column][row] = new_value
 
 
 
@@ -190,6 +169,7 @@ def displayPrices(index):
     None.
 
     """
+    print("Purchase price is ", getPurchasePrice(index))
     print("\n\nBelow are the prices for " + getDevice(index))
 
     #saving Jumia price keys in a list
@@ -204,24 +184,37 @@ def displayPrices(index):
 
 
     #displaying jumia prices
+    print("Purchase price is ", getPurchasePrice(index))
     print("\nDisplaying the device's suggested prices for Jumia")
     for index in range(len(jkeys)):
         print(index, jkeys[index], jumiaRange[jkeys[index]], sep = "\t\t")
 
-    selIndex = int(input ("Enter the index for your preferred price and profit: "))
-    print(jumiaRange[jkeys[selIndex]])
+    jselIndex = int(input ("Enter the index for your preferred price and profit: "))
 
 
 
-    #displaying jumia prices
+
+    #displaying regular prices
     print("\nDisplaying the device's suggested regular prices")
     for index in range(len(rkeys)):
         print(index, rkeys[index], regularRange[rkeys[index]], sep = "\t\t")
 
 
 
-    selIndex = int(input ("Enter the index for your preferred price and profit: "))
-    print(regularRange[rkeys[selIndex]])
+    rselIndex = int(input ("Enter the index for your preferred price and profit: "))
+
+    writePrices(index, jkeys[jselIndex], rkeys[rselIndex])
+
+    #resetting the price and profit lists
+    jkeys =[]
+    rkeys = []
+    jselIndex = None
+    rselIndex = None
+
+
+
+
+
 
 def save():
     """
@@ -244,4 +237,7 @@ sheet = openfile()
 for index in range(8,81):
     priceRange(index)
     displayPrices(index)
+    jumiaRange ={"Selling price" : "Profit"}
+    regularRange = {"Selling Price" : "Profit"}
 
+save()
